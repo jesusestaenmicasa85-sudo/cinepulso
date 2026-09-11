@@ -1,0 +1,60 @@
+'use client'
+
+import { useMemo, useState } from 'react'
+import { ChevronRight, Play, Search, X, Clock3, CalendarDays } from 'lucide-react'
+
+type Show = { title: string; year: string; rating: string; genre: string; synopsis: string; status: 'Disponible' | 'En emisión' | 'Próximamente'; image: string; backdrop?: string; href?: string }
+
+const genres = ['Todos', 'Drama', 'Romance', 'Acción', 'Comedia', 'Crimen']
+const shows: Show[] = [
+  { title: 'Eşref Rüya', year: '2025', rating: '8.7', genre: 'Drama · Acción', synopsis: 'Un poderoso hombre busca a su amor de infancia ruya el amor que cambio el rumbo de su mundo.', status: 'Disponible', href: 'https://t.me/+TDV2r4oXvd8yYjA5', image: https://ibb.co/R49DPPSj, backdrop:https://ibb.co/R49DPPSj },
+  { title: 'Halef', year: '2025', rating: '8.4', genre: 'Drama', synopsis: 'Dos familias y un destino dividido por secretos, tradición y una pasión imposible.', status: 'Disponible', href: 'https://t.me/+plbLK3zPUuNlYTZh', image:https://ibb.co/07vgqyQ},
+  { title: 'Sen Çal Kapımı', year: '2020', rating: '8.1', genre: 'Romance · Comedia', synopsis: 'Eda y Serkan convierten un acuerdo inesperado en una historia de amor inolvidable.', status: 'Disponible', href: 'https://t.me/+gDExYTtGvJRkYzAx', image: https://ibb.co/PvBxVX62},
+  { title: 'Sevdiğim Sensin', year: '2026', rating: '8.0', genre: 'Romance · Drama', synopsis: 'Una relación marcada por decisiones familiares y sentimientos que no pueden ocultarse.', status: 'Disponible', href: 'https://t.me/+JPJ_6YI2UiI5OWYx', image: https://ibb.co/VYQ5wdtW },
+  { title: 'Taşacak Bu Deniz', year: '2025', rating: '8.2', genre: 'Drama · Romance', synopsis: 'Un amor intenso intenta sobrevivir entre heridas del pasado y rivalidades familiares.', status: 'Disponible', href: 'https://t.me/+i1UAaM_L-s40MjYx', image: https://ibb.co/dJgWyHWm' },
+  { title: 'Yeralti', year: '2026', rating: '7.9', genre: 'Crimen · Drama', synopsis: 'En las profundidades de la ciudad, lealtad y ambición chocan en una lucha por el poder.', status: 'Disponible', href: 'https://t.me/+1QlrMYUwhCViMGUx', image: https://ibb.co/yndVwYBL },
+  { title: 'Doğanın Kanunu', year: '2026', rating: '8.0', genre: 'Drama · Romance', synopsis: 'Un reencuentro obliga a Yaman y Doğa a enfrentar un pasado que nunca quedó atrás.', status: 'Disponible', href: 'https://t.me/+YhgLoH6sie45NDMx', image: https://ibb.co/ZRSv28DW },
+  { title: 'Arafta', year: '2026', rating: '8.3', genre: 'Drama', synopsis: 'Una historia de decisiones, secretos y vínculos que se ponen a prueba cada semana.', status: 'En emisión', href: 'https://t.me/+pLxw4RXS9vE0YTc5', image:https://ibb.co/23MqjtLH },
+  { title: 'Altı Üstü İstanbul', year: '2026', rating: '8.1', genre: 'Drama · Crimen', synopsis: 'Un grupo de jóvenes intenta salir adelante en un barrio de Estambul marcado por el dinero y la traición.', status: 'En emisión', href: 'https://t.me/+y5VtRHGfoUswMzgx', image: https://ibb.co/bjSy7gdr },
+  { title: 'Haysiyet', year: '2026', rating: '7.8', genre: 'Drama', synopsis: 'La dignidad de una familia se enfrenta a decisiones que cambian su destino.', status: 'En emisión', href: 'https://t.me/+k0r7HsX3zPdjYWEx', image: https://ibb.co/zV6zjVyh},
+  { title: 'A.B.İ.', year: '2026', rating: '8.2', genre: 'Drama · Acción', synopsis: 'Una familia y sus secretos quedan atrapados entre la justicia, el honor y la venganza.', status: 'En emisión', href: 'https://t.me/+oRSGcPqWYjI5NTAx', image: https://ibb.co/GvDL2t4D },
+  { title: 'Tuzlu Kahve', year: '2026', rating: '7.7', genre: 'Comedia · Romance', synopsis: 'Dos mundos distintos se encuentran cuando una boda pone a prueba a sus familias.', status: 'En emisión', href: 'https://t.me/+c9wQ6VzuF-NkZDFh', image: https://ibb.co/tMF1wsdp },
+  { title: 'Sevdan Bir Ateş', year: '2026', rating: '7.9', genre: 'Drama · Romance', synopsis: 'Una pasión intensa arde entre promesas, obstáculos y viejas heridas.', status: 'En emisión', href: 'https://t.me/+XBHRFHhky2MxZWI5', image: https://ibb.co/Hpzp5r7k },
+  { title: 'Aşk ve Taht', year: '2026', rating: '8.0', genre: 'Drama · Romance', synopsis: 'Un amor imposible se cruza con intrigas de palacio y una lucha por el trono.', status: 'En emisión', href: 'https://t.me/+fsxUvsmHVYhhNTA5', image: https://ibb.co/Fk246Bgb },
+  { title: 'Muhtemel Aşk', year: '2026', rating: '7.8', genre: 'Romance · Comedia', synopsis: 'Una abogada endeudada intenta unir a dos jóvenes y termina involucrada en su propia historia.', status: 'En emisión', href: 'https://t.me/+2CE2eUR_khIzZGEx', image: https://ibb.co/1JKCBZYb },
+  { title: 'Mercan Köşk', year: '2026', rating: '7.9', genre: 'Drama · Romance', synopsis: 'Dos familias enemigas se enfrentan mientras nace un amor imposible en Tarsus.', status: 'En emisión', href: 'https://t.me/+SgkFOzeAQk0yNTZh', image: https://ibb.co/x8LQz6F1 },
+  { title: 'Daha 17', year: '2026', rating: '7.6', genre: 'Drama', synopsis: 'La juventud, la amistad y los sueños se encuentran en una etapa decisiva.', status: 'En emisión', href: 'https://t.me/+LIZ1OXlZwbpkZTQx', image: https://ibb.co/4wjGk3fF },
+  { title: 'Evlilik Güzeldir', year: '2026', rating: '7.8', genre: 'Drama · Comedia', synopsis: 'Un registrador de matrimonios y sus cinco hijas descubren que el amor y la familia nunca siguen un guion sencillo.', status: 'En emisión', href: 'https://t.me/+kgExQ8EUDdgyMzZh', image: https://ibb.co/Xfdp6wjd },
+  { title: 'Güller ve Günahlar', year: '2026', rating: '—', genre: 'Drama · Romance', synopsis: 'Una nueva historia de amor, secretos y consecuencias prepara su estreno.', status: 'Próximamente', image: https://ibb.co/TMZHXv94 },
+  { title: 'Sevdiğim Sensin — Temporada 2', year: '2026', rating: '—', genre: 'Romance · Drama', synopsis: 'La historia continúa con nuevos desafíos para la pareja.', status: 'En emisión', href: 'https://t.me/+nZ1OxjeKFJc0Nzcx', image: https://ibb.co/mV2vKnrG },
+  { title: 'Halef — Temporada 2', year: '2026', rating: '—', genre: 'Drama', synopsis: 'El conflicto familiar regresa con secretos todavía más peligrosos.', status: 'Próximamente', image: https://ibb.co/yndVwYBL },
+  { title: 'Uzak Şehir — Temporada 3', year: '2026', rating: '—', genre: 'Drama · Romance', synopsis: 'La esperada continuación de una familia atrapada entre el amor y el destino.', status: 'Próximamente', image: https://ibb.co/XfwdRTFB },
+]  { title: 'Yeralti — Temporada 2', year: '2026', rating: '—', genre: 'Drama · Romance', synopsis: 'En las profundidades de la ciudad, lealtad y ambición chocan en una lucha por el poder', status: 'Próximamente', image:  https://ibb.co/yndVwYBL },
+]
+
+function ShowCard({ show }: { show: Show }) {
+  return <article className="show-card">
+    <div className="poster-wrap"><img src={show.image} alt={`Póster de ${show.title}`} onError={(event) => { event.currentTarget.src = 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=700&q=85' }} /><span className={`status status-${show.status.replace('ó', 'o').replace(' ', '-').toLowerCase()}`}>{show.status}</span>{show.href ? <a className="poster-play" aria-label={`Ver ${show.title}`} href={show.href} target="_blank" rel="noreferrer"><Play fill="currentColor" /></a> : <button className="poster-play" aria-label={`Ver ${show.title}`}><Play fill="currentColor" /></button>}</div>
+    <div className="show-meta"><div><h3>{show.title}</h3><p>{show.year} · {show.genre}</p></div><span className="rating">★ {show.rating}</span></div>
+  </article>
+}
+
+function Row({ title, shows, onMore }: { title: string; shows: Show[]; onMore: () => void }) {
+  return <section className="show-row"><div className="row-heading"><h2>{title}</h2><button onClick={onMore}>Ver todo <ChevronRight /></button></div><div className="row-scroll">{shows.map((show) => <ShowCard key={show.title} show={show} />)}</div></section>
+}
+
+export default function Page() {
+  const [activeGenre, setActiveGenre] = useState('Todos')
+  const [activeStatus, setActiveStatus] = useState<'Todos' | Show['status']>('Todos')
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const [notice, setNotice] = useState('')
+  const featured = shows[0]
+  const visible = useMemo(() => shows.filter((show) => (activeGenre === 'Todos' || show.genre.split(' · ').includes(activeGenre)) && (activeStatus === 'Todos' || show.status === activeStatus) && show.title.toLowerCase().includes(query.toLowerCase())), [activeGenre, activeStatus, query])
+  const toast = (message: string) => { setNotice(message); window.setTimeout(() => setNotice(''), 2400) }
+  return <main className="stream-app">
+    <nav className="top-nav"><a className="brand" href="#inicio"><span className="brand-mark">C</span><span>CINEVAULT</span></a><div className="nav-links"><a className="active" href="#inicio">Inicio</a><a href="#catalogo">Catálogo</a><a href="#emision">En emisión</a><a href="#proximamente">Próximamente</a></div><button className="search-button" aria-label="Abrir búsqueda" onClick={() => setSearchOpen(!searchOpen)}><Search /></button>{searchOpen && <div className="search-panel"><Search /><input autoFocus value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar series..." aria-label="Buscar series" />{query && <button aria-label="Limpiar búsqueda" onClick={() => setQuery('')}><X /></button>}</div>}</nav>
+    <section id="inicio" className="hero"><img className="hero-image" src={featured.backdrop} alt="Escena cinematográfica de Eşref Rüya" /><div className="hero-vignette" /><div className="hero-content"><p className="eyebrow">Cinevault · Serie destacada</p><h1>EŞREF<br /><em>RÜYA</em></h1><div className="hero-facts"><span>2025</span><i /><span>2 temporadas</span><i /><span className="maturity">16+</span><i /><span>Drama · Acción</span></div><p className="synopsis">Un hombre poderoso busca al amor de su infancia mientras una música inesperada cambia el rumbo de su vida.</p><div className="hero-actions"><a className="watch-button" href={featured.href} target="_blank" rel="noreferrer"><Play fill="currentColor" /> Ver ahora</a><button className="more-button" onClick={() => toast('Añadida a Mi lista')}>＋ Mi lista</button></div></div><div className="hero-slide"><span>01</span><div className="slide-line"><b /></div><span>04</span></div></section>
+    <div className="content-wrap"><section className="status-tabs" aria-label="Estado de las series">{(['Todos', 'Disponible', 'En emisión', 'Próximamente'] as const).map((status) => <button key={status} className={activeStatus === status ? 'tab active' : 'tab'} onClick={() => setActiveStatus(status)}>{status === 'Disponible' ? <Play /> : status === 'En emisión' ? <Clock3 /> : status === 'Próximamente' ? <CalendarDays /> : null}{status}</button>)}</section><section id="catalogo" className="catalog"><div className="catalog-heading"><div><p className="eyebrow">Explora nuestro universo</p><h2>Catálogo de series</h2></div><span>{visible.length} títulos</span></div><div className="filters"><span>Géneros</span><div className="filter-scroll">{genres.map((genre) => <button key={genre} className={activeGenre === genre ? 'filter active' : 'filter'} onClick={() => setActiveGenre(genre)}>{genre}</button>)}</div></div><div className="catalog-grid">{visible.map((show) => (<ShowCard key={show.title} show={show} />))}</div></section><section id="emision"><Row title="En emisión ahora" shows={shows.filter((s) => s.status === 'En emisión')} onMore={() => setActiveStatus('En emisión')} /></section><section id="proximamente"><Row title="Próximamente en Cinevault" shows={shows.filter((s) => s.status === 'Próximamente')} onMore={() => setActiveStatus('Próximamente')} /></section><Row title="Recomendadas para ti" shows={shows.filter((s) => s.status === 'Disponible').slice(0, 5)} onMore={() => toast('Mostrando todas tus recomendaciones')} /></div>{notice && <div className="toast" role="status">{notice}</div>}
+  </main>
+}
