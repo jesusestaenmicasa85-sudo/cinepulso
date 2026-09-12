@@ -7,7 +7,7 @@ type Show = { title: string; year: string; rating: string; genre: string; synops
 
 const genres = ['Todos', 'Drama', 'Romance', 'Acción', 'Comedia', 'Crimen']
 const shows: Show[] = [
-  { title: 'Eşref Rüya', year: '2025', rating: '8.7', genre: 'Drama · Acción', synopsis: 'Un poderoso hombre busca a su amor de infancia ruya el amor que cambio el rumbo de su mundo.', status: 'Disponible', href: 'https://t.me/+TDV2r4oXvd8yYjA5', image: https://i.ibb.co/fG2xttSD/esref-ruya-en-espanol.jpg , https://i.ibb.co/fG2xttSD/esref-ruya-en-espanol.jpg },
+  { title: 'Eşref Rüya', year: '2025', rating: '8.7', genre: 'Drama · Acción', synopsis: 'Un poderoso hombre busca a su amor de infancia ruya el amor que cambio el rumbo de su mundo.', status: 'Disponible', href: 'https://t.me/+TDV2r4oXvd8yYjA5', image: [https://i.ibb.co/fG2xttSD/esref-ruya-en-espanol.jpg](https://i.ibb.co/fG2xttSD/esref-ruya-en-espanol.jpg)
   { title: 'Halef', year: '2025', rating: '8.4', genre: 'Drama', synopsis: 'Dos familias y un destino dividido por secretos, tradición y una pasión imposible.', status: 'Disponible', href: 'https://t.me/+plbLK3zPUuNlYTZh', https://i.ibb.co/zWLNmnXW/images-6.jpg},
   { title: 'Sen Çal Kapımı', year: '2020', rating: '8.1', genre: 'Romance · Comedia', synopsis: 'Eda y Serkan convierten un acuerdo inesperado en una historia de amor inolvidable.', status: 'Disponible', href: 'https://t.me/+gDExYTtGvJRkYzAx', https://i.ibb.co/gMwycNgY/photo-2026-09-11-18-42-49.jpg},
   { title: 'Sevdiğim Sensin', year: '2026', rating: '8.0', genre: 'Romance · Drama', synopsis: 'Una relación marcada por decisiones familiares y sentimientos que no pueden ocultarse.', status: 'Disponible', href: 'https://t.me/+JPJ_6YI2UiI5OWYx', image: https://i.ibb.co/XxTvnbnT/images-4.jpg },
